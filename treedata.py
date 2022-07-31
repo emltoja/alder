@@ -1,3 +1,9 @@
+'''
+
+Module containing classes that are backbones of tree generating
+
+'''
+
 from pathlib import Path
 from os import getcwd, listdir
 from colored import fg
@@ -5,7 +11,7 @@ from colored import fg
 class Data:
 
     '''
-    
+
     Class abstracting both directories as files in tree structure
 
     Parameters
@@ -14,7 +20,7 @@ class Data:
         name of current data (not equivalent to the path e.g dev vs. C:\\dev)
     parent
         parent directory (default None for root)
-    
+
     '''
 
     def __init__(self, name: str, parent = None):
@@ -47,10 +53,10 @@ class Data:
 class DirectoryTree(Data):
 
     '''
-    
+
     Class representing directories in tree stucture.
-    Inherits from Data class 
-    
+    Inherits from Data class
+
     '''
 
     def __init__(self, name: str, parent: Data = None, max_depth = 5, max_len = 20):
@@ -70,11 +76,11 @@ class DirectoryTree(Data):
 
     def get_content(self) -> list[Data]:
 
-        ''' 
+        '''
 
         Get content of directory as list of instances
-        of either DirectoryTree or File classes 
-        
+        of either DirectoryTree or File classes
+
         '''
 
         content = []
@@ -93,11 +99,11 @@ class DirectoryTree(Data):
 
     def get_tree(self) -> str:
 
-        ''' 
+        '''
 
-        Get string respresentation of tree with blue color 
-        for files and green for directories 
-        
+        Get string respresentation of tree with blue color
+        for files and green for directories
+
         '''
 
 
@@ -106,7 +112,7 @@ class DirectoryTree(Data):
                 else fg(98) + self.name  + fg(231) + '\n'
 
         if self.content:
-            
+
             for child in self.content[:min(len(self.content), self.max_len)]:
 
                 if child.level >= self.max_depth:
@@ -124,7 +130,7 @@ class DirectoryTree(Data):
 class File(Data):
 
     '''
-    
+
     Class representing files in tree stucture.
 
     Parameters
@@ -145,6 +151,8 @@ class File(Data):
         return self.name
 
     def get_tree(self):
+
+        ''' String repr of file with prefixes and colouring in tree '''
 
         return self.parent.prefix + f'|--{fg(4)}{self.name}{fg(231)}' + '\n' \
             if self.parent \
