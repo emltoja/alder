@@ -4,6 +4,19 @@ from colored import fg
 
 class Data:
 
+    '''
+    
+    Class abstracting both directories as files in tree structure
+
+    Parameters
+    ----------
+    name
+        name of current data (not equivalent to the path e.g dev vs. C:\dev)
+    parent
+        parent directory (default None for root)
+    
+    '''
+
     def __init__(self, name: str, parent = None):
 
         self.name = name
@@ -16,6 +29,8 @@ class Data:
 
     def get_path(self):
 
+        ''' Get path of current data relative to path of parent '''
+
         return Path(str(self.parent.get_path()) + '\\' + self.name) \
             if self.parent \
                 else Path(getcwd())
@@ -23,10 +38,19 @@ class Data:
 
     def get_abs_path(self):
 
+        ''' Get absolute path of data '''
+
         return self.path.absolute()
 
 
 class DirectoryTree(Data):
+
+    '''
+    
+    Class representing directories in tree stucture.
+    Inherits from Data class 
+    
+    '''
 
     def __init__(self, name: str, parent: Data = None):
 
@@ -35,9 +59,18 @@ class DirectoryTree(Data):
 
     def __str__(self) -> str:
 
+        ''' String representation for debug purposes'''
+
         return f'({self.name}; {list(map(str, self.content))})'
 
     def get_content(self) -> list[Data]:
+
+        ''' 
+
+        Get content of directory as list of instances
+        of either DirectoryTree or File classes 
+        
+        '''
 
         content = []
 
@@ -54,6 +87,14 @@ class DirectoryTree(Data):
 
     def get_tree(self) -> str:
 
+        ''' 
+
+        Get string respresentation of tree with blue color 
+        for files and green for directories 
+        
+        '''
+
+
         result = self.parent.prefix + f'|--{fg(2)}{self.name}{fg(231)}' + '\n' \
             if self.parent \
                 else fg(98) + self.name  + fg(231) + '\n'
@@ -66,6 +107,19 @@ class DirectoryTree(Data):
 
 
 class File(Data):
+
+    '''
+    
+    Class representing files in tree stucture.
+
+    Parameters
+    ----------
+    name
+        name of a file (same case as in dirs)
+    parent
+        as above
+
+    '''
 
     def __init__(self, name: str, parent: DirectoryTree):
 
