@@ -31,7 +31,7 @@ class Data:
         self.prefix = self.parent.prefix + '|  ' + ' ' * ((len(self.name) - 1) // 2) \
             if parent \
                 else ' ' * ((len(self.name) - 1) // 2)
-        self.level = parent.level + 1 if parent else 0
+        self.level = parent.level + 1 if parent else -1
 
 
     def get_path(self):
