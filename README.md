@@ -10,8 +10,7 @@
 This project is at development state. It may not be working as intented. 
 The most important flaws as of version 1.0.0 are: 
 - alder works only in current working directory
-- depth and length of tree are manualy bound to 5 and 20 respectively
-- cli is not implemented 
+- limited cli structure
 
 ### **USAGE**
 
