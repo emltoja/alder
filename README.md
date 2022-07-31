@@ -25,7 +25,8 @@ Output may look like this:
      |  |-file2
      |-file3
      |-dir2
-     |  |-file4
+        |-dir3
+           |-file4
 
 **Dependencies**
 
