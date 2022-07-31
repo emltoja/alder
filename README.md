@@ -3,6 +3,7 @@
 
 ***Author***: Emil Olszewski  
 ***Version***: 1.0.0
+***License***: MIT License
 
 ### **WARNING!**
 This project is at development state. It may not be working as intented. 
