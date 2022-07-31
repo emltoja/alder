@@ -11,7 +11,7 @@ class Data:
     Parameters
     ----------
     name
-        name of current data (not equivalent to the path e.g dev vs. C:\dev)
+        name of current data (not equivalent to the path e.g dev vs. C:\\dev)
     parent
         parent directory (default None for root)
     
@@ -25,6 +25,7 @@ class Data:
         self.prefix = self.parent.prefix + '|  ' + ' ' * ((len(self.name) - 1) // 2) \
             if parent \
                 else ' ' * ((len(self.name) - 1) // 2)
+        self.level = parent.level + 1 if parent else 0
 
 
     def get_path(self):
@@ -52,16 +53,20 @@ class DirectoryTree(Data):
     
     '''
 
-    def __init__(self, name: str, parent: Data = None):
+    def __init__(self, name: str, parent: Data = None, max_depth = 5, max_len = 20):
 
         super().__init__(name, parent)
+        self.max_depth = max_depth
+        self.max_len = max_len
         self.content = self.get_content()
+
 
     def __str__(self) -> str:
 
         ''' String representation for debug purposes'''
 
         return f'({self.name}; {list(map(str, self.content))})'
+
 
     def get_content(self) -> list[Data]:
 
@@ -79,11 +84,12 @@ class DirectoryTree(Data):
             child_path = Path(str(self.path) + '\\' + child)
 
             if child_path.is_dir():
-                content.append(DirectoryTree(child, self))
+                content.append(DirectoryTree(child, self, self.max_depth, self.max_len))
             else:
                 content.append(File(child, self))
 
         return content
+
 
     def get_tree(self) -> str:
 
@@ -100,8 +106,17 @@ class DirectoryTree(Data):
                 else fg(98) + self.name  + fg(231) + '\n'
 
         if self.content:
-            for child in self.content:
+            
+            for child in self.content[:min(len(self.content), self.max_len)]:
+
+                if child.level >= self.max_depth:
+                    result += (self.prefix + '.\n') * 3
+                    break
+
                 result += child.get_tree()
+
+            if len(self.content) > self.max_len:
+                result += (self.prefix + '.\n') * 3
 
         return result
 
