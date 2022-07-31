@@ -28,10 +28,14 @@ class Data:
         self.name = name
         self.parent = parent
         self.path = self.get_path()
-        self.prefix = self.parent.prefix + '|  ' + ' ' * ((len(self.name) - 1) // 2) \
-            if parent \
-                else ' ' * ((len(self.name) - 1) // 2)
         self.level = parent.level + 1 if parent else -1
+        self.prefix = ' ' * ((len(self.name) - 1) // 2)
+
+        if parent:    
+            if name == listdir(parent.get_abs_path())[-1]:
+                self.prefix = self.parent.prefix + '   ' + ' ' * ((len(self.name) - 1) // 2)
+            else: 
+                self.prefix = self.parent.prefix + '|  ' + ' ' * ((len(self.name) - 1) // 2)
 
 
     def get_path(self):
