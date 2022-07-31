@@ -23,7 +23,7 @@ Output may look like this:
      |  |-file1 
      |  |-file2
      |-file3
-     |-dir3
+     |-dir2
      |  |-file4
 
 
