@@ -1,8 +1,15 @@
 #! /usr/bin/env python
 
+'''
+
+Main alder module
+Run with "alder" in your terminal
+
+'''
+
 # Directory tree generator
 
-import argparse 
+import argparse
 
 from os import path as os_path, getcwd
 from colored import fg
@@ -15,7 +22,7 @@ if __name__ == '__main__':
         description='Create tree of current directory'
     )
 
-    parser.add_argument('-d', '--depth', type=int, default=5, 
+    parser.add_argument('-d', '--depth', type=int, default=5,
                          help='depth of a tree (default: 5)')
     parser.add_argument('-l', '--len', type=int, default=20,
                          help='length of a tree (default: 20)')
