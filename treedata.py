@@ -54,7 +54,6 @@ class Data:
         return self.path.absolute()
 
 
-
 class DirectoryTree(Data):
 
     '''
