@@ -9,24 +9,23 @@
 ### **WARNING!**
 This project is at development state. It may not be working as intented. 
 The most important flaws as of version 1.0.0 are: 
-- alder works only in current working directory
 - limited cli structure
 
 ### **USAGE**
 
     root@rootpc ~
-    $ alder 
+    $ alder <path_to_target_dir>
 
 Output may look like this: 
 
-    home
-     |-dir1
-     |  |-file1 
-     |  |-file2
-     |-file3
-     |-dir2
-        |-dir3
-           |-file4
+    target_dir
+        |-dir1
+        |  |-file1 
+        |  |-file2
+        |-file3
+        |-dir2
+           |-dir3
+              |-file4
 
 **Dependencies**
 

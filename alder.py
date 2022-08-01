@@ -22,6 +22,8 @@ if __name__ == '__main__':
         description='Create tree of current directory'
     )
 
+    parser.add_argument('path', metavar='path', type=str, nargs='*',
+                         help='path to root directory')
     parser.add_argument('-d', '--depth', type=int, default=5,
                          help='depth of a tree (default: 5)')
     parser.add_argument('-l', '--len', type=int, default=20,
@@ -31,6 +33,7 @@ if __name__ == '__main__':
 
     fg(231)
     print(DirectoryTree(
-        os_path.basename(getcwd()),
+        os_path.basename(*args.path),
+        path=args.path[0],
         max_depth=args.depth,
         max_len=args.len).get_tree())

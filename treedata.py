@@ -23,11 +23,11 @@ class Data:
 
     '''
 
-    def __init__(self, name: str, parent = None):
+    def __init__(self, name: str, path: str = None, parent = None):
 
         self.name = name
         self.parent = parent
-        self.path = self.get_path()
+        self.path = Path(path) if path else self.get_path()
         self.level = parent.level + 1 if parent else -1
         self.prefix = ' ' * ((len(self.name) - 1) // 2)
 
@@ -38,16 +38,13 @@ class Data:
                 self.prefix = self.parent.prefix + '|  ' + ' ' * ((len(self.name) - 1) // 2)
 
 
-    def get_path(self):
+    def get_path(self) -> Path:
 
         ''' Get path of current data relative to path of parent '''
 
-        return Path(str(self.parent.get_path()) + '\\' + self.name) \
-            if self.parent \
-                else Path(getcwd())
+        return Path(str(self.parent.path) + '\\' + self.name)
 
-
-    def get_abs_path(self):
+    def get_abs_path(self) -> Path:
 
         ''' Get absolute path of data '''
 
@@ -63,9 +60,9 @@ class DirectoryTree(Data):
 
     '''
 
-    def __init__(self, name: str, parent: Data = None, max_depth = 5, max_len = 20):
+    def __init__(self, name: str, path: str = None, parent: Data = None, max_depth = 5, max_len = 20):
 
-        super().__init__(name, parent)
+        super().__init__(name, path, parent)
         self.max_depth = max_depth
         self.max_len = max_len
         self.content = self.get_content()
@@ -94,7 +91,11 @@ class DirectoryTree(Data):
             child_path = Path(str(self.path) + '\\' + child)
 
             if child_path.is_dir():
-                content.append(DirectoryTree(child, self, self.max_depth, self.max_len))
+                content.append(DirectoryTree(
+                    child,
+                    parent=self,
+                    max_depth=self.max_depth,
+                    max_len=self.max_len))
             else:
                 content.append(File(child, self))
 
@@ -148,13 +149,13 @@ class File(Data):
 
     def __init__(self, name: str, parent: DirectoryTree):
 
-        super().__init__(name, parent)
+        super().__init__(name, parent=parent)
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         return self.name
 
-    def get_tree(self):
+    def get_tree(self) -> str:
 
         ''' String repr of file with prefixes and colouring in tree '''
 
