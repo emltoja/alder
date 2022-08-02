@@ -31,9 +31,11 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
+    root_path = args.path[0] if args.path else getcwd()
+
     fg(231)
     print(DirectoryTree(
-        os_path.basename(*args.path),
-        path=args.path[0],
+        os_path.basename(root_path),
+        path=root_path,
         max_depth=args.depth,
         max_len=args.len).get_tree())
